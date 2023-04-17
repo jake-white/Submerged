@@ -1,0 +1,52 @@
+[gd_scene load_steps=11 format=3 uid="uid://c26tno2h4oa66"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_cr8v1"]
+[ext_resource type="PackedScene" uid="uid://cjj4gy3ochjpo" path="res://Prefabs/explosion.tscn" id="2_jqxvb"]
+[ext_resource type="PackedScene" uid="uid://cr0lrtlbcta1" path="res://Prefabs/enemy_point.tscn" id="3_cx2br"]
+[ext_resource type="PackedScene" uid="uid://rb2cufex7lpm" path="res://Prefabs/pickup.tscn" id="4_lersw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7suek"]
+diffuse_mode = 3
+albedo_color = Color(0, 1, 0.556863, 1)
+metallic = 1.0
+roughness = 0.43
+
+[sub_resource type="BoxMesh" id="BoxMesh_3400a"]
+material = SubResource("StandardMaterial3D_7suek")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y8i4x"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_s3tnp"]
+material = SubResource("StandardMaterial3D_y8i4x")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fpd4g"]
+size = Vector3(1.3, 1.3, 1.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3my1k"]
+size = Vector3(1.5, 20, 1.5)
+
+[node name="Laser Enemy" type="Node3D" groups=["Enemy", "Wall"]]
+script = ExtResource("1_cr8v1")
+explosion = ExtResource("2_jqxvb")
+enemyPoint = ExtResource("3_cx2br")
+pickup = ExtResource("4_lersw")
+
+[node name="Box" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_3400a")
+
+[node name="Laser" type="MeshInstance3D" parent="Box"]
+transform = Transform3D(0.1, 0, 0, 0, 20, 0, 0, 0, 0.1, 0, -20, 0)
+mesh = SubResource("CylinderMesh_s3tnp")
+
+[node name="Laser Destruction" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Laser Destruction"]
+shape = SubResource("BoxShape3D_fpd4g")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_3my1k")

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://i1qksr53fasi"
+path="res://.godot/imported/friend underwater.ogg-b7f7b4fefec09ec19ab74ca02212860c.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sprites/friend underwater.ogg"
+dest_files=["res://.godot/imported/friend underwater.ogg-b7f7b4fefec09ec19ab74ca02212860c.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=3 uid="uid://bja73b5gd82s6"]
+
+[ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_xwd5g"]
+
+[sub_resource type="Gradient" id="Gradient_4k0hc"]
+offsets = PackedFloat32Array(0, 0.193078, 0.57377, 1)
+colors = PackedColorArray(0.560784, 0.231373, 0.223529, 1, 0.823529, 0.462745, 0.403922, 1, 0.989718, 0.919652, 0.763753, 1, 0.0392157, 0.0392157, 0.0392157, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j0qeo"]
+gradient = SubResource("Gradient_4k0hc")
+
+[sub_resource type="Curve" id="Curve_a0wp2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.755172, 0.663636), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6ggdr"]
+curve = SubResource("Curve_a0wp2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ofcgq"]
+lifetime_randomness = 0.1
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.3
+gravity = Vector3(0, 0, -1)
+scale_min = 0.1
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_6ggdr")
+color = Color(0.976471, 0.937255, 0.764706, 1)
+color_ramp = SubResource("GradientTexture1D_j0qeo")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v78ye"]
+shading_mode = 0
+diffuse_mode = 3
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_r8t63"]
+material = SubResource("StandardMaterial3D_v78ye")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_irymg"]
+albedo_color = Color(0.133333, 0.133333, 0.133333, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x5667"]
+material = SubResource("StandardMaterial3D_irymg")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0t8u0"]
+size = Vector3(7, 7, 7)
+
+[node name="Bullet" type="Node3D" node_paths=PackedStringArray("timer") groups=["Bullet"]]
+transform = Transform3D(0.261195, 0, 0, 0, 0.261195, 0, 0, 0, 0.261195, 0, 0, 0)
+script = ExtResource("1_xwd5g")
+timer = NodePath("Timer")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.999999, 2.13163e-14, -8.47033e-22, -2.13163e-14, 0.999999, -1.06581e-14, 8.47033e-22, 1.06581e-14, 0.999999, 0, 0, 0)
+amount = 20
+lifetime = 0.5
+explosiveness = 0.1
+process_material = SubResource("ParticleProcessMaterial_ofcgq")
+draw_pass_1 = SubResource("SphereMesh_r8t63")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_x5667")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_0t8u0")

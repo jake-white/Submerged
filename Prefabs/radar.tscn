@@ -1,0 +1,127 @@
+[gd_scene load_steps=17 format=3 uid="uid://c7ql1dyr1wlib"]
+
+[ext_resource type="Texture2D" uid="uid://4l0opounkjqi" path="res://Sprites/radarBase.png" id="1_01wkl"]
+[ext_resource type="Script" path="res://Scripts/Radar.gd" id="1_ejxp3"]
+[ext_resource type="Texture2D" uid="uid://q8ntyiye57fq" path="res://Sprites/radarCross.png" id="2_5b4pj"]
+[ext_resource type="Texture2D" uid="uid://b5suqjyo2gfi0" path="res://Sprites/spinningRadar.png" id="3_rlt6v"]
+[ext_resource type="Texture2D" uid="uid://fww5bljeuq5f" path="res://Sprites/spike.png" id="5_x8s13"]
+
+[sub_resource type="Gradient" id="Gradient_n2n2j"]
+colors = PackedColorArray(0.552941, 1, 0.196078, 1, 1, 0.243137, 0.243137, 1)
+
+[sub_resource type="Animation" id="Animation_nrn1t"]
+resource_name = "spin"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spinny")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, -1, 1, 1, 0, 0, 1, 0, 2, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g35hb"]
+_data = {
+"spin": SubResource("Animation_nrn1t")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0vuvu"]
+animation = &"spin"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dksyf"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qglx2"]
+states/spin/node = SubResource("AnimationNodeAnimation_0vuvu")
+states/spin/position = Vector2(353, 92)
+transitions = ["Start", "spin", SubResource("AnimationNodeStateMachineTransition_dksyf")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_82vrm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_psb73"]
+shading_mode = 0
+albedo_color = Color(0.219608, 0.231373, 0.2, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hhogo"]
+material = SubResource("StandardMaterial3D_psb73")
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dboy3"]
+shading_mode = 0
+diffuse_mode = 3
+albedo_color = Color(0.431373, 1, 0.164706, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lwchc"]
+material = SubResource("StandardMaterial3D_dboy3")
+size = Vector3(0.424, 8, 0.086)
+
+[node name="Radar" type="Node3D" node_paths=PackedStringArray("rotatePlane", "timer", "hpBar", "hpMesh")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+script = ExtResource("1_ejxp3")
+rotatePlane = NodePath("Rotation Nonsense/Rotation Plane")
+timer = NodePath("Rotation Nonsense/Timer")
+hpBar = NodePath("Rotation Nonsense/HPBar")
+hpGradient = SubResource("Gradient_n2n2j")
+hpMesh = NodePath("Rotation Nonsense/HPBar/HP")
+
+[node name="Rotation Nonsense" type="Node3D" parent="."]
+
+[node name="Rotation Plane" type="Node3D" parent="Rotation Nonsense"]
+
+[node name="Base" type="Sprite3D" parent="Rotation Nonsense"]
+modulate = Color(1, 1, 1, 0.301961)
+texture_filter = 0
+texture = ExtResource("1_01wkl")
+
+[node name="Cross" type="Sprite3D" parent="Rotation Nonsense"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+texture_filter = 0
+texture = ExtResource("2_5b4pj")
+
+[node name="Spinny" type="Sprite3D" parent="Rotation Nonsense"]
+transform = Transform3D(-0.107101, 0.984189, 0, -0.984189, -0.107101, 0, 0, 0, 0.99, 0, 0, 0.01)
+modulate = Color(1, 1, 1, 0.784314)
+texture_filter = 0
+texture = ExtResource("3_rlt6v")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rotation Nonsense"]
+libraries = {
+"": SubResource("AnimationLibrary_g35hb")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="Rotation Nonsense"]
+tree_root = SubResource("AnimationNodeStateMachine_qglx2")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_82vrm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rotation Nonsense"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, -0.1)
+visible = false
+mesh = SubResource("PlaneMesh_hhogo")
+skeleton = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="Rotation Nonsense"]
+wait_time = 0.5
+autostart = true
+
+[node name="Sprite3D" type="Sprite3D" parent="Rotation Nonsense"]
+transform = Transform3D(0.50022, 0, 0, 0, 0.400176, 0, 0, 0, 0.50022, 0.0293431, 0, 0.110705)
+modulate = Color(0.443137, 0.796078, 0.996078, 1)
+texture_filter = 0
+texture = ExtResource("5_x8s13")
+
+[node name="HPBar" type="Node3D" parent="Rotation Nonsense"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.3, -4, 0)
+
+[node name="HP" type="MeshInstance3D" parent="Rotation Nonsense/HPBar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("BoxMesh_lwchc")
+skeleton = NodePath("../../..")
+
+[node name="Label3D" type="Label3D" parent="Rotation Nonsense"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.48718, -3.45136, 0)
+pixel_size = 0.0257
+modulate = Color(0.560784, 0.890196, 0.996078, 1)
+text = "Hull"

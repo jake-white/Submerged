@@ -1,0 +1,10 @@
+[gd_resource type="SphereMesh" load_steps=2 format=3 uid="uid://dcqplxl38751m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ywikj"]
+transparency = 1
+shading_mode = 0
+diffuse_mode = 3
+vertex_color_use_as_albedo = true
+
+[resource]
+material = SubResource("StandardMaterial3D_ywikj")

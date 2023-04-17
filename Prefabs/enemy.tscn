@@ -1,0 +1,161 @@
+[gd_scene load_steps=11 format=3 uid="uid://cr65fft5dbluq"]
+
+[ext_resource type="Material" uid="uid://bgwo4aw1rhakh" path="res://Materials/mine.tres" id="1_b0uut"]
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_v7mqf"]
+[ext_resource type="PackedScene" uid="uid://cjj4gy3ochjpo" path="res://Prefabs/explosion.tscn" id="2_4yya8"]
+[ext_resource type="PackedScene" uid="uid://cr0lrtlbcta1" path="res://Prefabs/enemy_point.tscn" id="3_piros"]
+[ext_resource type="PackedScene" uid="uid://rb2cufex7lpm" path="res://Prefabs/pickup.tscn" id="4_2t4wr"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_i12wd"]
+material = ExtResource("1_b0uut")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_btnvf"]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 10.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_do28l"]
+radius = 0.03
+height = 0.35
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bisfu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jg2an"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="Enemy" type="Node3D" groups=["Enemy"]]
+script = ExtResource("1_v7mqf")
+explosion = ExtResource("2_4yya8")
+enemyPoint = ExtResource("3_piros")
+pickup = ExtResource("4_2t4wr")
+
+[node name="Ball" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_i12wd")
+
+[node name="Chain" type="MeshInstance3D" parent="Ball"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.07416, 0)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CylinderMesh_btnvf")
+
+[node name="Top Half" type="Node3D" parent="Ball"]
+
+[node name="Spike" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.495933, 0)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike2" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0.356831, 0.356831, 0)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike3" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.356831, 0.356831, 0)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike4" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(1.91069e-15, 4.37114e-08, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, -4.37114e-08, 2.00329e-09, -2.00329e-09, 0.45417)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike5" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 2.00329e-09, -2.00329e-09, -0.45417)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike8" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 5.08868e-18, -3.81628e-15, -8.74228e-08, -1, -0.45417, -2.00329e-09, -0.000507324)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike9" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, -1.85022e-18, -3.82322e-15, -8.74228e-08, -1, 0.45417, -2.00329e-09, 0.000507324)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike6" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(2.3481e-08, 3.68691e-08, -1, 0.843466, -0.537182, 0, -0.537182, -0.843466, -4.37114e-08, 4.16227e-09, 0.298822, 0.404778)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike7" type="MeshInstance3D" parent="Ball/Top Half"]
+transform = Transform3D(2.3481e-08, 3.68691e-08, 1, 0.843466, -0.537182, 0, 0.537182, 0.843466, -4.37114e-08, 4.16227e-09, 0.298822, -0.404778)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Bottom Half" type="Node3D" parent="Ball"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+
+[node name="Spike" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.495933, 0)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike2" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0.356831, 0.356831, 0)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike3" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -0.356831, 0.356831, 0)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike4" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(1.91069e-15, 4.37114e-08, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, -4.37114e-08, 2.00329e-09, -2.00329e-09, 0.45417)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike5" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 2.00329e-09, -2.00329e-09, -0.45417)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike8" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 5.08868e-18, -3.81628e-15, -8.74228e-08, -1, -0.45417, -2.00329e-09, -0.000507324)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike9" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, -1.85022e-18, -3.82322e-15, -8.74228e-08, -1, 0.45417, -2.00329e-09, 0.000507324)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike6" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(2.3481e-08, 3.68691e-08, -1, 0.843466, -0.537182, 0, -0.537182, -0.843466, -4.37114e-08, 4.16227e-09, 0.298822, 0.404778)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Spike7" type="MeshInstance3D" parent="Ball/Bottom Half"]
+transform = Transform3D(2.3481e-08, 3.68691e-08, 1, 0.843466, -0.537182, 0, 0.537182, 0.843466, -4.37114e-08, 4.16227e-09, 0.298822, -0.404778)
+material_override = ExtResource("1_b0uut")
+mesh = SubResource("CapsuleMesh_do28l")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_bisfu")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["Mine"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_jg2an")

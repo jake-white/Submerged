@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://do2o18kxralab"]
+
+[ext_resource type="Material" uid="uid://dc348yxayd6vs" path="res://Materials/rocks.tres" id="1_kc0dr"]
+[ext_resource type="Material" uid="uid://fq65oqflou1o" path="res://Materials/island.tres" id="2_mwimy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1t4pg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x75h7"]
+material = ExtResource("2_mwimy")
+
+[node name="StaticBody3D" type="StaticBody3D" groups=["Wall"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_1t4pg")
+
+[node name="Rock" type="MeshInstance3D" parent="CollisionShape3D"]
+material_override = ExtResource("1_kc0dr")
+mesh = SubResource("CapsuleMesh_x75h7")
+skeleton = NodePath("../../../..")

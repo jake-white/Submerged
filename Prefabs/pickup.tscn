@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://rb2cufex7lpm"]
+
+[ext_resource type="Script" path="res://Scripts/Pickup.gd" id="1_7gwhg"]
+[ext_resource type="Texture2D" uid="uid://cql5ocbwhqrc2" path="res://Sprites/torpedo.png" id="2_ejxr2"]
+
+[sub_resource type="Animation" id="Animation_73en1"]
+resource_name = "pickupspin"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 2, 1, 0, 0, 0, -1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_66640"]
+_data = {
+"pickupspin": SubResource("Animation_73en1")
+}
+
+[sub_resource type="Gradient" id="Gradient_paan6"]
+offsets = PackedFloat32Array(0, 0.701275, 1)
+colors = PackedColorArray(0.588235, 0.415686, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.105882)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ec6fe"]
+gradient = SubResource("Gradient_paan6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8okdv"]
+emission_shape = 2
+emission_sphere_radius = 1.0
+gravity = Vector3(0, 1, 0)
+damping_min = 0.1
+damping_max = 0.2
+scale_min = 0.2
+scale_max = 0.6
+color = Color(1, 0.980392, 0.541176, 1)
+color_ramp = SubResource("GradientTexture1D_ec6fe")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1xub2"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_ba682"]
+material = SubResource("StandardMaterial3D_1xub2")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rijr5"]
+size = Vector3(2, 2, 2)
+
+[node name="Pickup" type="Node3D" groups=["Pickup"]]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+script = ExtResource("1_7gwhg")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+texture = ExtResource("2_ejxr2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "pickupspin"
+libraries = {
+"": SubResource("AnimationLibrary_66640")
+}
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_8okdv")
+draw_pass_1 = SubResource("SphereMesh_ba682")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_rijr5")
